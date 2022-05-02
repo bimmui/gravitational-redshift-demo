@@ -1,0 +1,606 @@
+<div id="glowscript" class="glowscript">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link type="text/css" href="https://www.glowscript.org/css/redmond/2.1/jquery-ui.custom.css" rel="stylesheet" />
+<link type="text/css" href="https://www.glowscript.org/css/ide.css" rel="stylesheet" />
+<script type="text/javascript" src="https://www.glowscript.org/lib/jquery/2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.glowscript.org/lib/jquery/2.1/jquery-ui.custom.min.js"></script>
+<script type="text/javascript" src="https://www.glowscript.org/package/glow.3.2.min.js"></script>
+<script type="text/javascript" src="https://www.glowscript.org/package/RSrun.3.2.min.js"></script>
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+
+// START JAVASCRIPT
+;(function() {;
+var ρσ_modules = {};
+var L_scene, L_scene2, ruler_observed, ruler_emitted, run;
+ρσ_modules.pythonize = {};
+
+(function(){
+    function strings() {
+        var string_funcs, exclude, name;
+        string_funcs = set("capitalize strip lstrip rstrip islower isupper isspace lower upper swapcase center count endswith startswith find rfind index rindex format join ljust rjust partition rpartition replace split rsplit splitlines zfill".split(" "));
+        if (!arguments.length) {
+            exclude = (function(){
+                var s = ρσ_set();
+                s.jsset.add("split");
+                s.jsset.add("replace");
+                return s;
+            })();
+        } else if (arguments[0]) {
+            exclude = Array.prototype.slice.call(arguments);
+        } else {
+            exclude = null;
+        }
+        if (exclude) {
+            string_funcs = string_funcs.difference(set(exclude));
+        }
+        var ρσ_Iter0 = string_funcs;
+        ρσ_Iter0 = ((typeof ρσ_Iter0[Symbol.iterator] === "function") ? (ρσ_Iter0 instanceof Map ? ρσ_Iter0.keys() : ρσ_Iter0) : Object.keys(ρσ_Iter0));
+        for (var ρσ_Index0 of ρσ_Iter0) {
+            name = ρσ_Index0;
+            (ρσ_expr_temp = String.prototype)[(typeof name === "number" && name < 0) ? ρσ_expr_temp.length + name : name] = (ρσ_expr_temp = ρσ_str.prototype)[(typeof name === "number" && name < 0) ? ρσ_expr_temp.length + name : name];
+        }
+    };
+    if (!strings.__module__) Object.defineProperties(strings, {
+        __module__ : {value: "pythonize"}
+    });
+
+    ρσ_modules.pythonize.strings = strings;
+})();
+async function __main__() {
+"use strict";
+    var display = canvas;
+    var scene = canvas();
+
+    function input(arg) {
+    	arg = arg || {}
+    	if (arg.prompt !== undefined && arg.prompt != '') return prompt(arg.prompt)
+    	else if (typeof arg === 'string') return prompt(arg)
+    	else return prompt()
+    }
+
+    var version, print, arange, __name__, type, ρσ_ls, scene2, L_scene2, scene, L_scene, E0, c, _GS_1, myArrows_observed, myArrows_emitted, run, ruler_observed, ruler_emitted, input_wavelength, input_bh_mass, glob_arrowlist, foo_arrowlist, E, B, Earrow;
+    version = ρσ_list_decorate([ "3.2", "glowscript" ]);
+    Array.prototype['+'] = function(r) {return this.concat(r)}
+    Array.prototype['*'] = function(r) {return __array_times_number(this, r)}
+    window.__GSlang = "vpython";
+    print = GSprint;
+    arange = range;
+    __name__ = "__main__";
+    type = pytype;
+    var strings = ρσ_modules.pythonize.strings;
+
+    strings();
+    "11";
+    scene2 = ρσ_interpolate_kwargs.call(this, canvas, [ρσ_desugar_kwargs({width: 999, height: 599, background: color.white, title: "\nThe emitted wave"})]);
+    "12";
+    L_scene2 = ρσ_interpolate_kwargs.call(this, label, [ρσ_desugar_kwargs({pos: vec(400, 400, 0), text: "Wavelength: 500 nm\n    Schwarzschild Radius: 0 km", xoffset: 20, yoffset: 50, space: 30, height: 16, border: 4, font: "sans"})]);
+    "20";
+    scene = ρσ_interpolate_kwargs.call(this, canvas, [ρσ_desugar_kwargs({title: "The observed wave"})]);
+    "21";
+    scene.width = 1e3;
+    "22";
+    scene.height = 600;
+    "23";
+    scene.background = color.white;
+    "24";
+    L_scene = ρσ_interpolate_kwargs.call(this, label, [ρσ_desugar_kwargs({pos: vec(400, 400, 0), text: "Wavelength: 500 nm\n    Redshift Ratio: 0\n    Schwarzschild Radius: 0 km", xoffset: 20, yoffset: 50, space: 30, height: 16, border: 4, font: "sans", canvas: scene})]);
+    "33";
+    E0 = 1e4;
+    "34";
+    c = 3e8;
+    "36";
+    function Arrows() {;
+    }
+    Arrows.prototype.__init__ = async function __init__(drawing_canvas, observed) {
+        var self = this;
+        "38";
+        self.drawing_canvas = drawing_canvas;
+        "39";
+        drawing_canvas.range = 1["*"](500);
+        "40";
+        self.observed = observed;
+    };
+    if (!Arrows.prototype.__init__.__argnames__) Object.defineProperties(Arrows.prototype.__init__, {
+        __argnames__ : {value: ["drawing_canvas", "observed"]},
+        __module__ : {value: null}
+    });
+    Arrows.__argnames__ = Arrows.prototype.__init__.__argnames__;
+    Arrows.__handles_kwarg_interpolation__ = Arrows.prototype.__init__.__handles_kwarg_interpolation__;
+    Arrows.prototype.updatetime = async function updatetime() {
+        var self = this;
+        "68";
+        self.t = self.t["+"](self.dt);
+    };
+    if (!Arrows.prototype.updatetime.__module__) Object.defineProperties(Arrows.prototype.updatetime, {
+        __module__ : {value: null}
+    });
+    Arrows.prototype.use_appropriate_wavelength = async function use_appropriate_wavelength() {
+        var self = this;
+        var ρσ_ls, wavelength;
+        "73";
+        if ((self.observed === false || typeof self.observed === "object" && ρσ_equals(self.observed, false))) {
+            "74";
+            wavelength = self.wavelength;
+            "75";
+        } else {
+            "76";
+            if ((self.observed_wavelength === 0 || typeof self.observed_wavelength === "object" && ρσ_equals(self.observed_wavelength, 0))) {
+                "77";
+                wavelength = self.wavelength;
+                "78";
+            } else {
+                "79";
+                wavelength = self.observed_wavelength;
+            }
+        }
+        "81";
+        return wavelength;
+    };
+    if (!Arrows.prototype.use_appropriate_wavelength.__module__) Object.defineProperties(Arrows.prototype.use_appropriate_wavelength, {
+        __module__ : {value: null}
+    });
+    Arrows.prototype.use_appropriate_frequency = async function use_appropriate_frequency() {
+        var self = this;
+        var ρσ_ls, frequency;
+        "86";
+        if ((self.observed === false || typeof self.observed === "object" && ρσ_equals(self.observed, false))) {
+            "87";
+            frequency = self.frequency;
+            "88";
+        } else {
+            "89";
+            if ((self.observed_frequency === 0 || typeof self.observed_frequency === "object" && ρσ_equals(self.observed_frequency, 0))) {
+                "90";
+                frequency = self.frequency;
+                "91";
+            } else {
+                "92";
+                frequency = self.observed_frequency;
+            }
+        }
+        "94";
+        return frequency;
+    };
+    if (!Arrows.prototype.use_appropriate_frequency.__module__) Object.defineProperties(Arrows.prototype.use_appropriate_frequency, {
+        __module__ : {value: null}
+    });
+    Arrows.prototype.calculate_schwarzschildradius = async function calculate_schwarzschildradius(new_bh_mass) {
+        var self = this;
+        var ρσ_ls, new_radius;
+        "99";
+        new_radius = 3["*"](new_bh_mass);
+        "100";
+        self.bh_schwarzschildradius = new_radius;
+        "101";
+        self.bh_mass = new_bh_mass;
+    };
+    if (!Arrows.prototype.calculate_schwarzschildradius.__argnames__) Object.defineProperties(Arrows.prototype.calculate_schwarzschildradius, {
+        __argnames__ : {value: ["new_bh_mass"]},
+        __module__ : {value: null}
+    });
+    Arrows.prototype.change_r_coordinate = async function change_r_coordinate(new_r) {
+        var self = this;
+        "105";
+        self.radius_of_emitted = new_r;
+    };
+    if (!Arrows.prototype.change_r_coordinate.__argnames__) Object.defineProperties(Arrows.prototype.change_r_coordinate, {
+        __argnames__ : {value: ["new_r"]},
+        __module__ : {value: null}
+    });
+    Arrows.prototype.calculate_redshift_ratio = async function calculate_redshift_ratio() {
+        var self = this;
+        var ρσ_ls, value_of_sqrt, zed;
+        "109";
+        if (self.radius_of_emitted["<"](0)) {
+            "110";
+            print("input an r coordinate");
+            "111";
+        } else {
+            "112";
+            if (self.radius_of_emitted["<"](self.bh_schwarzschildradius)) {
+                "113";
+                self.redshift_ratio = 0;
+                "114";
+            } else {
+                "115";
+                value_of_sqrt = sqrt(1["-"](self.bh_schwarzschildradius["/"](self.radius_of_emitted)));
+                "116";
+                zed = 1["/"](value_of_sqrt)["-"](1);
+                "117";
+                self.redshift_ratio = zed;
+            }
+        }
+    };
+    if (!Arrows.prototype.calculate_redshift_ratio.__module__) Object.defineProperties(Arrows.prototype.calculate_redshift_ratio, {
+        __module__ : {value: null}
+    });
+    Arrows.prototype.calculate_observedmeasurements = async function calculate_observedmeasurements() {
+        var self = this;
+        "123";
+        if ((self.redshift_ratio === 0 || typeof self.redshift_ratio === "object" && ρσ_equals(self.redshift_ratio, 0))) {
+            "124";
+            "125";
+        } else {
+            "126";
+            self.observed_wavelength = self.redshift_ratio["*"](self.wavelength)["+"](self.wavelength);
+            "127";
+            self.observed_frequency = c["/"](self.observed_wavelength);
+        }
+    };
+    if (!Arrows.prototype.calculate_observedmeasurements.__module__) Object.defineProperties(Arrows.prototype.calculate_observedmeasurements, {
+        __module__ : {value: null}
+    });
+    Arrows.prototype.updatemeasurements = async function updatemeasurements(new_wavelength) {
+        var self = this;
+        var ρσ_ls, wavelength;
+        "133";
+        wavelength = (await self.use_appropriate_wavelength());
+        "134";
+        self.wavelength = new_wavelength;
+        "135";
+        self.frequency = self.frequency;
+        "136";
+        self.period = 1["/"](self.frequency);
+        "137";
+        self.dt = 3e-4["*"](self.period);
+        "138";
+        self.t = 0;
+    };
+    if (!Arrows.prototype.updatemeasurements.__argnames__) Object.defineProperties(Arrows.prototype.updatemeasurements, {
+        __argnames__ : {value: ["new_wavelength"]},
+        __module__ : {value: null}
+    });
+    Arrows.prototype.updatetext = async function updatetext() {
+        var self = this;
+        var ρσ_ls, new_text;
+        "142";
+        if ((self.observed === true || typeof self.observed === "object" && ρσ_equals(self.observed, true))) {
+            "146";
+            new_text = "Wavelength: "["+"](ρσ_str.format("{}", (await self.use_appropriate_wavelength())))["+"](" nm\n            Redshift Ratio: ")["+"](ρσ_str.format("{}", self.redshift_ratio))["+"]("\n            Schwarzschild Radius: ")["+"](ρσ_str.format("{}", self.bh_schwarzschildradius))["+"](" km\n            Frequency: ")["+"](ρσ_str.format("{}", self.observed_frequency))["+"](" hertz (Hz)");
+            "147";
+            "148";
+            L_scene.text = new_text;
+            "149";
+        } else {
+            "152";
+            new_text = "Wavelength: "["+"](ρσ_str.format("{}", self.wavelength))["+"](" nm\n            Schwarzschild Radius: ")["+"](ρσ_str.format("{}", self.bh_schwarzschildradius))["+"](" km\n            Frequency: ")["+"](ρσ_str.format("{}", self.frequency))["+"]("");
+            "153";
+            "154";
+            L_scene2.text = new_text;
+        }
+    };
+    if (!Arrows.prototype.updatetext.__module__) Object.defineProperties(Arrows.prototype.updatetext, {
+        __module__ : {value: null}
+    });
+    Arrows.prototype.constructarrows = async function constructarrows() {
+        var self = this;
+        var ρσ_ls, wavelength, pointlist, temp_arrowlist, Earrow, x;
+        "159";
+        wavelength = (await self.use_appropriate_wavelength());
+        "161";
+        pointlist = range(3["-u"]()["*"](wavelength)["*"](10), 3["*"](wavelength)["*"](10), wavelength["/"](16));
+        "162";
+        temp_arrowlist = ρσ_list_decorate([]);
+        "166";
+        var ρσ_Iter1 = pointlist;
+        ρσ_Iter1 = ((typeof ρσ_Iter1[Symbol.iterator] === "function") ? (ρσ_Iter1 instanceof Map ? ρσ_Iter1.keys() : ρσ_Iter1) : Object.keys(ρσ_Iter1));
+        for (var ρσ_Index1 of ρσ_Iter1) {
+            x = ρσ_Index1;
+            "167";
+            Earrow = ρσ_interpolate_kwargs.call(this, arrow, [ρσ_desugar_kwargs({pos: vector(x, 0, 0), color: color.orange, shaftwidth: wavelength["/"](40), canvas: self.drawing_canvas})]);
+            "168";
+            Earrow.B = ρσ_interpolate_kwargs.call(this, arrow, [ρσ_desugar_kwargs({pos: vector(x, 0, 0), color: color.cyan, shaftwidth: wavelength["/"](40), canvas: self.drawing_canvas})]);
+            "169";
+            temp_arrowlist.append(Earrow);
+            "170";
+            if (abs(x)["<"](.03["*"](wavelength))) {
+                "171";
+                Earrow.color = color.red;
+                "172";
+                Earrow.B.color = color.black;
+            }
+        }
+        "173";
+        self.arrowlist = temp_arrowlist;
+    };
+    if (!Arrows.prototype.constructarrows.__module__) Object.defineProperties(Arrows.prototype.constructarrows, {
+        __module__ : {value: null}
+    });
+    Arrows.prototype.constructruler = async function constructruler() {
+        var self = this;
+        var ρσ_ls, wavelength, yy, xx, dyy, pts;
+        "177";
+        wavelength = (await self.use_appropriate_wavelength());
+        "178";
+        yy = wavelength["-u"]()["*"](.65);
+        "179";
+        xx = .5["-u"]()["*"](wavelength);
+        "180";
+        dyy = wavelength["/"](5);
+        "181";
+        pts = ρσ_list_decorate([ vector(xx, yy["+"](dyy), 0), vector(xx, yy["-"](dyy), 0), vector(xx, yy, 0), vector(xx["+"](wavelength), yy, 0), vector(xx["+"](wavelength), yy["+"](dyy), 0), vector(xx["+"](wavelength), yy["-"](dyy), 0) ]);
+        "184";
+        return pts;
+    };
+    if (!Arrows.prototype.constructruler.__module__) Object.defineProperties(Arrows.prototype.constructruler, {
+        __module__ : {value: null}
+    });
+    Arrows.prototype.__repr__ = async function __repr__() {
+                return "<"["+"](__name__)["+"](".")["+"](this.constructor.name)["+"](" #")["+"](this.ρσ_object_id)["+"](">");
+    };
+    Arrows.prototype.__str__ = async function __str__() {
+        return this.__repr__();
+    };
+    Object.defineProperty(Arrows.prototype, "__bases__", {value: []});
+    
+    
+    Arrows.prototype.wavelength = 500;
+    
+    Arrows.prototype.observed_wavelength = 0;
+    
+    Arrows.prototype.frequency = c["/"](Arrows.prototype.wavelength);
+    
+    Arrows.prototype.period = 1["/"](Arrows.prototype.frequency);
+    
+    Arrows.prototype.dt = 3e-4["*"](Arrows.prototype.period);
+    
+    Arrows.prototype.t = 0;
+    
+    Arrows.prototype.arrowlist = ρσ_list_decorate([]);
+    
+    Arrows.prototype.observed_wavelength = 0;
+    
+    Arrows.prototype.observed_frequency = 0;
+    
+    Arrows.prototype.radius_of_emitted = 0;
+    
+    Arrows.prototype.redshift_ratio = 0;
+    
+    Arrows.prototype.bh_mass = 0;
+    
+    Arrows.prototype.bh_schwarzschildradius = 0;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    "188";
+    _GS_1 = new Arrows;
+    ρσ_interpolate_kwargs.call(_GS_1, _GS_1.__init__, [ρσ_desugar_kwargs({drawing_canvas: scene, observed: true})]);
+    myArrows_observed = _GS_1;
+    "189";
+    _GS_1 = new Arrows;
+    ρσ_interpolate_kwargs.call(_GS_1, _GS_1.__init__, [ρσ_desugar_kwargs({drawing_canvas: scene2, observed: false})]);
+    myArrows_emitted = _GS_1;
+    "190";
+    run = true;
+    "191";
+    ruler_observed = ρσ_interpolate_kwargs.call(this, curve, [ρσ_desugar_kwargs({color: color.green, pos: (await myArrows_observed.constructruler()), radius: (await myArrows_observed.use_appropriate_wavelength())["/"](30), canvas: scene})]);
+    "192";
+    ruler_emitted = ρσ_interpolate_kwargs.call(this, curve, [ρσ_desugar_kwargs({color: color.green, pos: (await myArrows_emitted.constructruler()), radius: (await myArrows_emitted.use_appropriate_wavelength())["/"](30), canvas: scene2})]);
+    "196";
+    async function changewavelength(new_wavelength) {
+        var ρσ_ls, ptslist_observed, ptslist_emitted;
+        "197";
+        if ((new_wavelength.number === null || typeof new_wavelength.number === "object" && ρσ_equals(new_wavelength.number, null))) {
+            "198";
+            print("Please type a number");
+            "199";
+        } else {
+            "201";
+            (await myArrows_observed.updatemeasurements(new_wavelength.number));
+            "202";
+            (await myArrows_emitted.updatemeasurements(new_wavelength.number));
+            "206";
+            (await myArrows_observed.calculate_observedmeasurements());
+            "209";
+            (await myArrows_observed.updatetext());
+            "210";
+            (await myArrows_emitted.updatetext());
+            "213";
+            (await myArrows_observed.constructarrows());
+            "214";
+            (await myArrows_emitted.constructarrows());
+            "217";
+            ptslist_observed = (await myArrows_observed.constructruler());
+            "218";
+            ptslist_emitted = (await myArrows_emitted.constructruler());
+            "219";
+            "220";
+            "223";
+            ruler_observed.clear();
+            "224";
+            ruler_emitted.clear();
+            "227";
+            ruler_observed = ρσ_interpolate_kwargs.call(this, curve, [ρσ_desugar_kwargs({color: color.green, pos: ptslist_observed, radius: (await myArrows_observed.use_appropriate_wavelength())["/"](30), canvas: scene})]);
+            "228";
+            ruler_emitted = ρσ_interpolate_kwargs.call(this, curve, [ρσ_desugar_kwargs({color: color.green, pos: ptslist_emitted, radius: (await myArrows_emitted.use_appropriate_wavelength())["/"](30), canvas: scene2})]);
+        }
+    };
+    if (!changewavelength.__argnames__) Object.defineProperties(changewavelength, {
+        __argnames__ : {value: ["new_wavelength"]},
+        __module__ : {value: null}
+    });
+
+    (await sleep(.1));
+    "229";
+    input_wavelength = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: changewavelength, text: 500})]);
+    "231";
+    scene.append_to_caption(" Use the text box to input emitted wavelength in nanometers (nm).\n");
+    "234";
+    async function changebh_mass(new_mass) {
+        var ρσ_ls, ptslist_observed;
+        "235";
+        if ((new_mass.number === null || typeof new_mass.number === "object" && ρσ_equals(new_mass.number, null))) {
+            "236";
+            print("Please type a number");
+            "237";
+        } else {
+            "238";
+            (await myArrows_observed.calculate_observedmeasurements());
+            "241";
+            (await myArrows_observed.calculate_schwarzschildradius(new_mass.number));
+            "242";
+            if ((myArrows_observed.radius_of_emitted !== 0 && (typeof myArrows_observed.radius_of_emitted !== "object" || ρσ_not_equals(myArrows_observed.radius_of_emitted, 0)))) {
+                "243";
+                (await myArrows_observed.calculate_redshift_ratio());
+            }
+            "246";
+            (await myArrows_observed.updatemeasurements(new_wavelength.number));
+            "248";
+            (await myArrows_observed.updatetext());
+            "249";
+            (await myArrows_emitted.updatetext());
+            "251";
+            (await myArrows_observed.constructarrows());
+            "253";
+            ptslist_observed = (await myArrows_observed.constructruler());
+            "254";
+            "255";
+            ruler_observed.clear();
+            "256";
+            ruler_observed = ρσ_interpolate_kwargs.call(this, curve, [ρσ_desugar_kwargs({color: color.green, pos: ptslist_observed, radius: (await myArrows_observed.use_appropriate_wavelength())["/"](30), canvas: scene})]);
+        }
+    };
+    if (!changebh_mass.__argnames__) Object.defineProperties(changebh_mass, {
+        __argnames__ : {value: ["new_mass"]},
+        __module__ : {value: null}
+    });
+
+    (await sleep(.1));
+    "257";
+    input_bh_mass = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: changebh_mass, text: 0})]);
+    "259";
+    scene.append_to_caption(" Use the text box to input the black hole mass in terms of solar mass (M).\n");
+    "263";
+    async function change_r_coordinate(new_r) {
+        var ρσ_ls, ptslist_observed;
+        "264";
+        if ((new_r.number === null || typeof new_r.number === "object" && ρσ_equals(new_r.number, null))) {
+            "265";
+            print("Please type a number");
+            "266";
+        } else {
+            "268";
+            (await myArrows_observed.change_r_coordinate(new_r.number));
+            "269";
+            (await myArrows_observed.calculate_redshift_ratio());
+            "272";
+            (await myArrows_observed.calculate_observedmeasurements());
+            "274";
+            (await myArrows_observed.updatetext());
+            "275";
+            (await myArrows_emitted.updatetext());
+            "277";
+            (await myArrows_observed.updatemeasurements(new_wavelength.number));
+            "278";
+            (await myArrows_observed.constructarrows());
+            "280";
+            ptslist_observed = (await myArrows_observed.constructruler());
+            "281";
+            "282";
+            ruler_observed.clear();
+            "283";
+            ruler_observed = ρσ_interpolate_kwargs.call(this, curve, [ρσ_desugar_kwargs({color: color.green, pos: ptslist_observed, radius: (await myArrows_observed.use_appropriate_wavelength())["/"](30), canvas: scene})]);
+        }
+    };
+    if (!change_r_coordinate.__argnames__) Object.defineProperties(change_r_coordinate, {
+        __argnames__ : {value: ["new_r"]},
+        __module__ : {value: null}
+    });
+
+    (await sleep(.1));
+    "284";
+    input_bh_mass = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: change_r_coordinate, text: 0})]);
+    "288";
+    scene.append_to_caption(" Use the text box to input the r-coordinate from which the wave/particle is being emitted hole in kilometers (km).\n\nThe green marker indicates the length of one wavelength.\n");
+    "299";
+    scene.append_to_caption("\n\n\n**This program assumes you are a shell observer making measurements from \na static Schwarzschild black hole when performing calculations. At the start of\nthe program, the wave is nowhere near a black hole thus all measurements related\nto redshifts and the black hole are set to 0.\n\n\n");
+    "303";
+    async function B_Runbutton(b) {
+        "304";
+        "305";
+        run = !run;
+        "306";
+        if (run) {
+            "307";
+            b.text = "Pause program";
+            "308";
+        } else {
+            "309";
+            b.text = "Resume program";
+        }
+    };
+    if (!B_Runbutton.__argnames__) Object.defineProperties(B_Runbutton, {
+        __argnames__ : {value: ["b"]},
+        __module__ : {value: null}
+    });
+
+    "310";
+    ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({text: "Pause", bind: B_Runbutton})]);
+    "314";
+    (await myArrows_observed.constructarrows());
+    "315";
+    (await myArrows_emitted.constructarrows());
+    "316";
+    glob_arrowlist = myArrows_observed.arrowlist;
+    "317";
+    foo_arrowlist = myArrows_emitted.arrowlist;
+    "321";
+    while (true) {
+        "322";
+        (await rate(1e3));
+        "323";
+        if (!run) {
+            continue;
+        }
+        "325";
+        var ρσ_Iter2 = glob_arrowlist;
+        ρσ_Iter2 = ((typeof ρσ_Iter2[Symbol.iterator] === "function") ? (ρσ_Iter2 instanceof Map ? ρσ_Iter2.keys() : ρσ_Iter2) : Object.keys(ρσ_Iter2));
+        for (var ρσ_Index2 of ρσ_Iter2) {
+            Earrow = ρσ_Index2;
+            "326";
+            E = vector(0, E0["*"](cos(2["*"](pi)["*"]((await myArrows_observed.use_appropriate_frequency())["*"](myArrows_observed.t)["-"](Earrow.pos.x["/"]((await myArrows_observed.use_appropriate_wavelength())))))), 0);
+            "327";
+            B = vector(0, 0, E.y["/"](c));
+            "328";
+            Earrow.axis = E["/"](40);
+            "329";
+            Earrow.B.axis = B["*"](c["/"](50));
+        }
+        "330";
+        var ρσ_Iter3 = foo_arrowlist;
+        ρσ_Iter3 = ((typeof ρσ_Iter3[Symbol.iterator] === "function") ? (ρσ_Iter3 instanceof Map ? ρσ_Iter3.keys() : ρσ_Iter3) : Object.keys(ρσ_Iter3));
+        for (var ρσ_Index3 of ρσ_Iter3) {
+            Earrow = ρσ_Index3;
+            "331";
+            E = vector(0, E0["*"](cos(2["*"](pi)["*"]((await myArrows_emitted.use_appropriate_frequency())["*"](myArrows_emitted.t)["-"](Earrow.pos.x["/"]((await myArrows_emitted.use_appropriate_wavelength())))))), 0);
+            "332";
+            B = vector(0, 0, E.y["/"](c));
+            "333";
+            Earrow.axis = E["/"](40);
+            "334";
+            Earrow.B.axis = B["*"](c["/"](50));
+        }
+        "335";
+        (await myArrows_observed.updatetime());
+        "336";
+        (await myArrows_emitted.updatetime());
+    }
+};
+if (!__main__.__module__) Object.defineProperties(__main__, {
+    __module__ : {value: null}
+});
+
+;$(function(){ window.__context = { glowscript_container: $("#glowscript").removeAttr("id") }; __main__() })})()
+// END JAVASCRIPT
+
+//--><!]]></script>
+</div>
